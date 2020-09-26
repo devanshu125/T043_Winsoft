@@ -30,6 +30,6 @@ class generate:
 
         for i, j in self.greens:
             img1.paste(green, (i, j))
-        img1.save("assets/images/temp.png")
+        # img1.save("static/temp.png")
 
-        # return img1
+        return img1
