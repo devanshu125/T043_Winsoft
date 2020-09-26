@@ -170,8 +170,9 @@ class eval:
         decoded = self.decode_message(x, key).replace("_", "")
 
         loc_list = self.extract_location(decoded)
-        if len(loc_list) == 0:
+        if loc_list == []:
             ret.append("NOT APPLICABLE")
+            return None, None, None
 
         else:
             ret.append("Decoded message: " + decoded)
@@ -179,4 +180,11 @@ class eval:
             our_camp, total_cost_dict = self.search(loc_list)
             ret.append("Our base should be at:" + " " + our_camp)
 
-        return ret, total_cost_dict, loc_list
+            from grid import generate
+            india = [self.location_dict[x][0] for x in [our_camp]]
+            print(india)
+            china = [self.location_dict[x][0] for x in loc_list]
+            gen = generate(india, china)
+            gen.generate_image()
+
+            return ret, total_cost_dict, loc_list
