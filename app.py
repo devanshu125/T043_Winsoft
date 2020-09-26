@@ -31,14 +31,10 @@ def decoded():
     return render_template("decoded_msg.html", solution_text=ret_message, camps=camps, total_cost_list=total_cost_list, legend="Cost (Total Distance)")
 
 
-
 @app.route("/ps")
 def ps():
     return render_template("ps.html")
 
-@app.route("/simplechart")
-def chart():
-    return render_template("chart.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

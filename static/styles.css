@@ -44,7 +44,7 @@ nav .navbar-brand .green
 
 main{
   overflow-x: auto;
-  text-align: right;
+  text-align: center;
 }
 
 main img
@@ -54,18 +54,9 @@ main img
 
 main .form-control
 {
-  display: inline-block;
-  width: auto;
-}
+    /* center form controls */
+    display: inline-block;
 
-.chartContainer{
-    width: 50%;
-    height: 50%;
-    text-align: center;
-}
-
-canvas{
-    width: 60% !important;
-    height: 700px !important;
-    margin: 0 auto;
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
 }

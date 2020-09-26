@@ -96,6 +96,7 @@ class eval:
             graph.add_edge(*edge)
 
         min, ret = None, None
+        total_cost_dict = {}
         for camp in self.location_dict.keys():
             camp_code = self.location_dict[camp][0]
             total_cost = 0
@@ -104,11 +105,14 @@ class eval:
                 path, cost = self.dijsktra(graph, camp_code, enemy_code)
                 total_cost += cost
 
+            total_cost_dict[camp] = round(total_cost, 2)
+
+
             if min == None or total_cost < min:
                 min = total_cost
                 ret = camp
 
-        return ret
+        return ret, total_cost_dict
 
     def dijsktra(self, graph, initial, end):
         shortest_paths = {initial: (None, 0)}
@@ -164,14 +168,15 @@ class eval:
         #ret.append("key:" + " " + key)
 
         decoded = self.decode_message(x, key).replace("_", "")
-        ret.append("decoded message is:")
-        ret.append(decoded)
 
         loc_list = self.extract_location(decoded)
-        #ret.append("exctracted locations are:")
-        #ret.append(loc_list)
+        if len(loc_list) == 0:
+            ret.append("NOT APPLICABLE")
 
-        our_camp = self.search(loc_list)
-        ret.append("Our base should be at" + " " + our_camp)
+        else:
+            ret.append("Decoded message: " + decoded)
 
-        return ret
+            our_camp, total_cost_dict = self.search(loc_list)
+            ret.append("Our base should be at:" + " " + our_camp)
+
+        return ret, total_cost_dict, loc_list
