@@ -39,6 +39,14 @@ class eval:
             ctr += 1
         return ret
 
+    def extract_location(self,msg):
+        master = list(self.location_dict.keys())
+        ret = []
+        for i in master:
+            if i in msg:
+                ret.append(i)
+        return ret
+
     def run(self, x, key):
         x = "Cnwvtus KuaiTaa rlodeeurethn  an Ia_mrhs baer oag ndC_a aeoat dLj lLdio_me  p  hagZLngan _"
         key = "DELHI"
