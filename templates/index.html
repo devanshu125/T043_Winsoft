@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{%block title%}
+  Home
+{%endblock%}
+
+{% block main %}
+  <br>
+  <h1 style="text-align:center">Hey, let's find where the Chinese are hidden!</h1>
+  <p style="text-align:center; font-size:32px"></p>
+
+  <br>
+  <br>
+
+  <form action="/decoded" method="post">
+    <div class="form-group">
+      <input type="text" name="a" placeholder="Encrypted message" required="required" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+      <input type="text" name="b" placeholder="Key" required="required" class="form-control"/>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Decode</button>
+
+    <div class="column">
+      <img src="/static/map.png" alt="Meme #1" style="width:60%">
+    </div>
+
+  </form>
+  <br>
+  <br>
+  <br>
+  <br>
+
+
+{% endblock %}
