@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title%}
+  The decoded message is:
+{% endblock %}
+
+{% block main %}
+ {%for r in solution_text%}
+   <h5 style="text-align:center"> {{r}} </h5>
+   <br>
+{%endfor%}
+
+{% endblock %}
