@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, jsonify, render_template, redirect, session
 from cs50 import SQL
 from helpers import login_required
+from error import apology
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -17,7 +18,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("postgres://xwkjsnqyjlazri:243dd192c787d7fb804351fda185c7ee3865777379eb58c394c79ca2991dc94d@ec2-54-235-192-146.compute-1.amazonaws.com:5432/d8ic1cdrc97p8d")
+db = SQL("sqlite:///alpha.db")
 
 @app.after_request
 def add_header(r):
@@ -56,7 +57,6 @@ def decoded():
     ret_message, total_cost_dict, loc_list = e.run(x, key)
 
     if ret_message == None:
-        from error import apology
         return apology("NA TRY AGAIN", 400)
     else:
         camps = []
@@ -117,6 +117,31 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+@app.route("/register", methods=["GET", "POST"])
+@login_required
+def register():
+    """Register user"""
+    if request.method == "GET":
+        return render_template("register.html")
+    else:
+        rows = db.execute("SELECT * from users where username = :username",
+        username = request.form.get("username"))
+
+        if len(rows) == 1 or not request.form.get("username"):
+            return apology("Username invalid!")
+
+        elif not request.form.get("password"):
+            return apology("Please enter password!")
+
+        elif request.form.get("password") != request.form.get("password(again)"):
+            return apology("The two passwords do not match!")
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        db.execute("INSERT INTO users (username, hash) VALUES (:username, :hash)", username=username, hash=generate_password_hash(password))
+
+        return redirect("/")
 
 
 @app.route("/encrypt", methods=["GET", "POST"])
@@ -132,7 +157,9 @@ def encrypt():
         print(msg)
         x, key = msg[0], msg[1]
 
-        ret = message_encoder.encode(x, key)
+        ret = message_encoder.encode_message(x, key)
+
+        print(ret)
 
         return render_template("encrypt_answer.html", solution_text=ret)
     else:
