@@ -17,7 +17,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///alpha.db")
+db = SQL("postgres://xwkjsnqyjlazri:243dd192c787d7fb804351fda185c7ee3865777379eb58c394c79ca2991dc94d@ec2-54-235-192-146.compute-1.amazonaws.com:5432/d8ic1cdrc97p8d")
 
 @app.after_request
 def add_header(r):
