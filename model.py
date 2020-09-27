@@ -100,17 +100,20 @@ class eval:
         for camp in self.location_dict.keys():
             camp_code = self.location_dict[camp][0]
             total_cost = 0
-            for enemy in loc_list:
-                enemy_code = self.location_dict[enemy][0]
-                path, cost = self.dijsktra(graph, camp_code, enemy_code)
-                total_cost += cost
+            print("hi", loc_list)
+            if camp not in loc_list:
+                print(camp)
+                for enemy in loc_list:
+                    enemy_code = self.location_dict[enemy][0]
+                    path, cost = self.dijsktra(graph, camp_code, enemy_code)
+                    total_cost += cost
 
-            total_cost_dict[camp] = round(total_cost, 2)
+                total_cost_dict[camp] = round(total_cost, 2)
 
 
-            if min == None or total_cost < min:
-                min = total_cost
-                ret = camp
+                if min == None or total_cost < min:
+                    min = total_cost
+                    ret = camp
 
         return ret, total_cost_dict
 
@@ -176,7 +179,7 @@ class eval:
 
         else:
             ret.append("Decoded message: " + decoded)
-
+            print("run", loc_list)
             our_camp, total_cost_dict = self.search(loc_list)
             ret.append("Our base should be at:" + " " + our_camp)
 

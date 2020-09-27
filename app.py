@@ -2,6 +2,19 @@ from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
+@app.after_request
+def add_header(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -11,6 +24,10 @@ def home():
 @app.route("/decoded", methods=["GET", "POST"])
 def decoded():
     # msg = list(request.form.values())
+    #import os
+    # if os.path.exists("static/result/temp.png"):
+        #print("YESSSSSS")
+    # os.remove("static/result/temp.png")
     msg = [str(i) for i in request.form.values()]
     print(msg)
     x, key = msg[0], msg[1]
@@ -32,6 +49,20 @@ def decoded():
                 total_cost_list.append(total_cost)
 
         return render_template("decoded_msg.html", solution_text=ret_message, camps=camps, total_cost_list=total_cost_list, legend="Cost (Total Distance)")
+
+"""
+
+@app.after_request
+def add_header(response):
+    print("----------x----------x--------------")
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Expires'] = '0'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
+
+"""
+
 
 
 @app.route("/ps")

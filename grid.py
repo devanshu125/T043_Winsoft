@@ -6,6 +6,7 @@ class generate:
 
         self.greens = [d[x] for x in valid]
         self.reds = [d[x] for x in china]
+        print(self.reds)
 
 
 
@@ -30,6 +31,6 @@ class generate:
 
         for i, j in self.greens:
             img1.paste(green, (i, j))
-        # img1.save("static/temp.png")
+        img1.save("static/result/temp.png")
 
-        return img1
+        # return img1
